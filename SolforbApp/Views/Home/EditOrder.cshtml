@@ -1,0 +1,31 @@
+﻿@model SolforbApp.ViewModels.EditOrderViewModel
+
+@{
+    ViewData["Title"] = "Редактировать заказ";
+}
+
+<h2>Редактировать заказ</h2>
+
+<form asp-action="EditOrder">
+    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+    <input type="hidden" asp-for="Id" value="@Model.Id" />
+    <div class="col-md-4">
+        <label asp-for="Number" class="form-label"></label>
+        <input asp-for="Number" class="form-control" />
+        <span asp-validation-for="Number" class="text-danger"></span>
+    </div>
+    <div class="col-md-4">
+        <label asp-for="Date" class="form-label"></label>
+        <input asp-for="Date" class="form-control" />
+        <span asp-validation-for="Date" class="text-danger"></span>
+    </div>
+    <div class="col-md-4">
+        <label asp-for="ProviderId" class="form-label"></label>
+        <select asp-for="ProviderId" asp-items="@Model.Providers" class="form-control">
+            <option value="ProviderId"></option>
+        </select>
+    </div>
+    <div class="mt-3">
+        <input type="submit" value="Изменить" class="btn btn-primary" />
+    </div>
+</form>

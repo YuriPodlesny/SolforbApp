@@ -1,0 +1,42 @@
+﻿@model SolforbApp.ViewModels.DetailViewModel
+
+@{
+    ViewData["Title"] = "Информация о заказе";
+}
+
+
+<form method="post" asp-action="DeleteOrder" asp-route-orderId="@Model.OrderId">
+    <a asp-action="EditOrder" asp-route-orderId="@Model.OrderId" class="btn btn-sm btn-primary">Редактировать</a>
+    <button type="submit" class="btn btn-sm btn-danger">Удалить заказ</button>
+</form>
+
+
+<h2>Информация о заказе</h2>
+
+<div>
+    OrderDate:@Model.OrderDate <br />
+    OrderNumber:@Model.OrderNumber <br />
+    ProviderName:@Model.ProviderName <br />
+
+    <a asp-action="CreateOrderItem" asp-route-orderId="@Model.OrderId" class="btn btn-sm btn-success">Добавить элемент заказа</a>
+    
+    <table class="table">
+        <tr><th>Id</th><th>OrderId</th><th>Name</th><th>Quantity</th><th>Unit</th><th></th></tr>
+        @foreach (var orderItems in Model.OrderItems)
+        {
+            <tr>
+                <td>@orderItems.Id</td>
+                <td>@orderItems.OrderId</td>
+                <td>@orderItems.Name</td>
+                <td>@orderItems.Quantity</td>
+                <td>@orderItems.Unit</td>
+                <td>
+                    <form method="post" asp-action="DeleteOrderItems" asp-route-orderItemId="@orderItems.Id">
+                        <a class="btn btn-sm btn-primary" asp-action="EditOrderItem" asp-route-orderItemId="@orderItems.Id">Изменить</a>
+                        <button type="submit" class="btn btn-sm btn-danger">Удалить</button>
+                    </form>
+                </td>
+            </tr>
+        }
+    </table>
+</div>

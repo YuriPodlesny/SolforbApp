@@ -1,0 +1,29 @@
+﻿@model IEnumerable<SolforbApp.Domain.Core.Order>
+
+@{
+    ViewData["Title"] = "Главная страница";
+}
+
+<h2>Главная страница</h2>
+
+<a asp-action="CreateOrder" class="btn btn-success">Добавить заказ</a>
+
+
+<table class="table">
+    <tr><th>Id</th><th>Namber</th><th>Date</th><th>ProviderId</th><th></th></tr>
+    @foreach (var order in Model)
+    {
+            <tr>
+                <td>@order.Id</td>
+                <td>@order.Number</td>
+                <td>@order.Date</td>
+                <td>@order.ProviderId</td>
+                <td>
+                    <form method="post" asp-action="Detail" asp-route-orderId="@order.Id">
+                        <button type="submit" class="btn btn-sm btn-primary">Подробнее</button>
+                    </form>
+                </td>
+            </tr>
+    }
+</table>
+
