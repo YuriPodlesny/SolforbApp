@@ -24,14 +24,33 @@ namespace SolforbApp.Controllers
         }
 
         [HttpGet]
-        public IActionResult Index()
+        public IActionResult Index(string number, int? providerId)
         {
-            var results = _order.GetAll();
-            return View(results);
+            var orders = _order.GetAll();
+            var numbers = orders.Select(x => x.Number).Distinct().ToList();
+            var providers = orders.Select(x=>x.ProviderId).Distinct().ToList();
+            
+            if(!String.IsNullOrEmpty(number))
+            {
+                orders = orders.Where(p => p.Number == number);
+            }
+            if(providerId != null && providerId != 0)
+            {
+                orders = orders.Where(p => p.ProviderId == providerId);
+            }
+
+            var indexViewModel = new IndexViewModel
+            {
+                Orders = orders,
+                Numbers = new SelectList(numbers),
+                ProvidersId = new SelectList(providers)
+            };
+
+            return View(indexViewModel);
         }
 
 
-        public async Task<IActionResult> Detail(int orderId)
+        public async Task<IActionResult> Detail(int orderId, string orderItemName, string orderItemUnit)
         {
             var order = await _order.Get(orderId);
             var orderItems = _orderItem.GetOrderItemsByOrderId(orderId);
@@ -39,6 +58,19 @@ namespace SolforbApp.Controllers
             {
                 return NotFound();
             }
+
+            var names = orderItems.Select(x=>x.Name).Distinct().ToList();
+            var units = orderItems.Select(x=>x.Unit).Distinct().ToList();
+
+            if (!String.IsNullOrEmpty(orderItemName))
+            {
+                orderItems = orderItems.Where(p=>p.Name == orderItemName);
+            }
+            if (!String.IsNullOrEmpty(orderItemUnit))
+            {
+                orderItems = orderItems.Where(p => p.Unit == orderItemUnit);
+            }
+            
             var provider = await _provider.Get(order.ProviderId);
             var model = new DetailViewModel
             {
@@ -46,7 +78,9 @@ namespace SolforbApp.Controllers
                 OrderDate = order.Date,
                 OrderNumber = order.Number,
                 ProviderName = provider?.Name,
-                OrderItems = orderItems
+                OrderItems = orderItems,
+                Names = new SelectList(names),
+                Units = new SelectList(units)
             };
             return View(model);
         }

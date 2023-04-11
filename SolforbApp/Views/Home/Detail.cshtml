@@ -19,6 +19,27 @@
     ProviderName:@Model.ProviderName <br />
 
     <a asp-action="CreateOrderItem" asp-route-orderId="@Model.OrderId" class="btn btn-sm btn-success">Добавить элемент заказа</a>
+    <form method="get">
+        <div class="row align-items-end">
+            <input type="hidden" asp-for="OrderId" value="@Model.OrderId" />
+            <div class="col-md-3">
+                <label asp-for="OrderItemName" class="form-label">Name</label>
+                <select asp-for="OrderItemName" asp-items="@Model.Names" class="form-control">
+                    <option></option>
+                </select>
+            </div>
+
+            <div class="col-md-3">
+                <label asp-for="OrderItemUnit" class="form-label">Unit</label>
+                <select asp-for="OrderItemUnit" asp-items="@Model.Units" class="form-control">
+                    <option></option>
+                </select>
+            </div>
+            <div class="col-md-3">
+                <input type="submit" value="Фильтр" class="btn btn-primary" />
+            </div>
+        </div>
+    </form>
     
     <table class="table">
         <tr><th>Id</th><th>OrderId</th><th>Name</th><th>Quantity</th><th>Unit</th><th></th></tr>

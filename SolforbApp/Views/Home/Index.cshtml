@@ -1,4 +1,4 @@
-﻿@model IEnumerable<SolforbApp.Domain.Core.Order>
+﻿@model SolforbApp.ViewModels.IndexViewModel
 
 @{
     ViewData["Title"] = "Главная страница";
@@ -8,10 +8,30 @@
 
 <a asp-action="CreateOrder" class="btn btn-success">Добавить заказ</a>
 
+<form method="get">
+    <div class="row align-items-end">
+        <div class="col-md-3">
+            <label asp-for="Number" class="form-label">Номер</label>
+            <select asp-for="Number" asp-items="@Model.Numbers" class="form-control">
+                <option></option>
+            </select>
+        </div>
+
+        <div class="col-md-3">
+            <label asp-for="ProviderId" class="form-label">Id поствщика</label>
+            <select asp-for="ProviderId" asp-items="@Model.ProvidersId" class="form-control">
+                <option></option>
+            </select>
+        </div>
+        <div class="col-md-3">
+            <input type="submit" value="Фильтр" class="btn btn-primary" />
+        </div>
+    </div>
+</form>
 
 <table class="table">
     <tr><th>Id</th><th>Namber</th><th>Date</th><th>ProviderId</th><th></th></tr>
-    @foreach (var order in Model)
+    @foreach (var order in Model.Orders)
     {
             <tr>
                 <td>@order.Id</td>
