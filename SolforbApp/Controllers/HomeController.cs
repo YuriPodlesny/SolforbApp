@@ -5,6 +5,7 @@ using SolforbApp.Domain.Interfaces;
 using SolforbApp.Models;
 using SolforbApp.ViewModels;
 using System.Diagnostics;
+using System.Security.Cryptography.Xml;
 
 namespace SolforbApp.Controllers
 {
@@ -24,26 +25,34 @@ namespace SolforbApp.Controllers
         }
 
         [HttpGet]
-        public IActionResult Index(string number, int? providerId)
+        public IActionResult Index(string number, int? providerId, DateTime dataStart, DateTime dataEnd)
         {
             var orders = _order.GetAll();
             var numbers = orders.Select(x => x.Number).Distinct().ToList();
-            var providers = orders.Select(x=>x.ProviderId).Distinct().ToList();
-            
-            if(!String.IsNullOrEmpty(number))
+            var providers = orders.Select(x => x.ProviderId).Distinct().ToList();
+
+            if (!String.IsNullOrEmpty(number))
             {
                 orders = orders.Where(p => p.Number == number);
             }
-            if(providerId != null && providerId != 0)
+            if (providerId != null && providerId != 0)
             {
                 orders = orders.Where(p => p.ProviderId == providerId);
             }
+            if(dataStart == DateTime.MinValue && dataEnd == DateTime.MinValue)
+            {
+                dataStart = DateTime.Now.AddMonths(-1);
+                dataEnd = DateTime.Now;
+            }
+            orders = orders.Where(p => p.Date >= dataStart).Where(p => p.Date <= dataEnd);
 
             var indexViewModel = new IndexViewModel
             {
                 Orders = orders,
                 Numbers = new SelectList(numbers),
-                ProvidersId = new SelectList(providers)
+                ProvidersId = new SelectList(providers),
+                DataEnd = dataEnd,
+                DataStart = dataStart
             };
 
             return View(indexViewModel);
@@ -59,18 +68,18 @@ namespace SolforbApp.Controllers
                 return NotFound();
             }
 
-            var names = orderItems.Select(x=>x.Name).Distinct().ToList();
-            var units = orderItems.Select(x=>x.Unit).Distinct().ToList();
+            var names = orderItems.Select(x => x.Name).Distinct().ToList();
+            var units = orderItems.Select(x => x.Unit).Distinct().ToList();
 
             if (!String.IsNullOrEmpty(orderItemName))
             {
-                orderItems = orderItems.Where(p=>p.Name == orderItemName);
+                orderItems = orderItems.Where(p => p.Name == orderItemName);
             }
             if (!String.IsNullOrEmpty(orderItemUnit))
             {
                 orderItems = orderItems.Where(p => p.Unit == orderItemUnit);
             }
-            
+
             var provider = await _provider.Get(order.ProviderId);
             var model = new DetailViewModel
             {
@@ -88,7 +97,7 @@ namespace SolforbApp.Controllers
         [HttpGet]
         public IActionResult CreateOrder()
         {
-            CreateOrderViewModel createOrderViewModel = new ();
+            CreateOrderViewModel createOrderViewModel = new();
             var selectProvider = _provider.GetAll();
             List<SelectListItem> listItems = _provider.GetAll()
                 .OrderBy(n => n.Name)
@@ -119,7 +128,7 @@ namespace SolforbApp.Controllers
                     return RedirectToAction(nameof(Index));
                 }
             }
-            return View(model);
+            return RedirectToAction(nameof(CreateOrder));
         }
 
         [HttpGet]
@@ -152,26 +161,26 @@ namespace SolforbApp.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> EditOrder (EditOrderViewModel model)
+        public async Task<IActionResult> EditOrder(EditOrderViewModel model)
         {
             if (ModelState.IsValid)
             {
                 var order = await _order.Get(model.Id);
-                if(order != null)
+                if (order != null)
                 {
                     order.Number = model.Number;
                     order.Date = model.Date;
                     order.ProviderId = model.ProviderId;
 
                     var result = await _order.Update(order);
-                    if(result == true)
+                    if (result == true)
                     {
                         return RedirectToAction(nameof(Detail), new { orderId = order.Id });
                     }
                 }
                 return NotFound();
             }
-            return View(model);
+            return RedirectToAction(nameof(EditOrder), new { orderId = model.Id });
         }
 
         [HttpPost]
@@ -181,7 +190,7 @@ namespace SolforbApp.Controllers
             if (order != null)
             {
                 var result = await _order.Delete(orderId);
-                if(result == true)
+                if (result == true)
                 {
                     return RedirectToAction(nameof(Index));
                 }
@@ -266,7 +275,7 @@ namespace SolforbApp.Controllers
             if (orderItem != null)
             {
                 var result = await _orderItem.Delete(orderItemId);
-                if(result == true)
+                if (result == true)
                 {
                     return RedirectToAction(nameof(Detail), new { orderId = orderItem.OrderId });
                 }

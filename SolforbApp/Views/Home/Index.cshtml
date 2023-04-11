@@ -10,20 +10,27 @@
 
 <form method="get">
     <div class="row align-items-end">
-        <div class="col-md-3">
+        <div class="col-md-2">
+            <label asp-for="DataStart" class="form-label">Дата начала периода</label>
+            <input asp-for="DataStart" class="form-control" />
+        </div>
+        <div class="col-md-2">
+            <label asp-for="DataEnd" class="form-label">Дата конца периода</label>
+            <input asp-for="DataEnd" class="form-control" />
+        </div>
+        <div class="col-md-2">
             <label asp-for="Number" class="form-label">Номер</label>
             <select asp-for="Number" asp-items="@Model.Numbers" class="form-control">
                 <option></option>
             </select>
         </div>
-
-        <div class="col-md-3">
+        <div class="col-md-2">
             <label asp-for="ProviderId" class="form-label">Id поствщика</label>
             <select asp-for="ProviderId" asp-items="@Model.ProvidersId" class="form-control">
                 <option></option>
             </select>
         </div>
-        <div class="col-md-3">
+        <div class="col-md-2">
             <input type="submit" value="Фильтр" class="btn btn-primary" />
         </div>
     </div>

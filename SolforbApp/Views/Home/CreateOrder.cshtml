@@ -23,8 +23,8 @@
         <select asp-for="ProviderId" asp-items="@Model.Providers" class="form-control">
             <option value="">Выберите поставщика</option>
         </select>
+        <span asp-validation-for="ProviderId" class="text-danger"></span>
     </div>
-
     <div class="mt-3">
         <input type="submit" value="Добавить" class="btn btn-primary" />
     </div>

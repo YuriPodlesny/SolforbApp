@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc.Rendering;
 using SolforbApp.Domain.Core;
+using System.ComponentModel.DataAnnotations;
 
 namespace SolforbApp.ViewModels
 {
@@ -12,5 +13,11 @@ namespace SolforbApp.ViewModels
 
         public int ProviderId { get; set; }
         public SelectList ProvidersId { get; set; }
+
+        [DataType(DataType.Date)]
+        public DateTime DataStart { get; set; }
+
+        [DataType(DataType.Date)]
+        public DateTime DataEnd { get; set; }
     }
 }
