@@ -37,17 +37,16 @@
 </form>
 
 <table class="table">
-    <tr><th>Id</th><th>Namber</th><th>Date</th><th>ProviderName</th><th></th></tr>
+    <tr><th></th><th>Id</th><th>Namber</th><th>Date</th><th>ProviderName</th><th></th></tr>
     @foreach (var order in Model.Orders)
     {
-            <tr>
+            <tr class="position-relative">
+                <th scope="row"><a asp-action="Detail" asp-route-orderId="@order.Id" class="stretched-link"></a></th>
                 <td>@order.Id</td>
                 <td>@order.Number</td>
                 <td>@order.Date</td>
                 <td>@order.Provider.Name</td>
             </tr>
-            <a asp-action="Detail" asp-route-orderId="@order.Id" class="stretched-link"></a> 
-            
     }
 </table>
 
