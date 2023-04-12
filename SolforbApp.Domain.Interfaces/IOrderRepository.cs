@@ -9,5 +9,6 @@ namespace SolforbApp.Domain.Interfaces
 {
     public interface IOrderRepository : IBaseRepository<Order>
     {
+        IQueryable<Order> GetOrderIncludeProvider();
     }
 }

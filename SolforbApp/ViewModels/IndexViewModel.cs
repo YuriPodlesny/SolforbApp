@@ -12,7 +12,7 @@ namespace SolforbApp.ViewModels
         public SelectList Numbers {  get; set; }
 
         public int ProviderId { get; set; }
-        public SelectList ProvidersId { get; set; }
+        public IEnumerable<SelectListItem> Providers { get; set; }
 
         [DataType(DataType.Date)]
         public DateTime DataStart { get; set; }

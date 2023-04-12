@@ -13,6 +13,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\SolforbApp.Infrastructure.Data\SolforbApp.Infrastructure.Data.csproj" />
+    <ProjectReference Include="..\SolforbApp.Services.Interfaces\SolforbApp.Services.Repository.csproj" />
   </ItemGroup>
 
 </Project>

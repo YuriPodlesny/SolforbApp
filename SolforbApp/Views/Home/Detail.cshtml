@@ -42,12 +42,11 @@
     </form>
     
     <table class="table">
-        <tr><th>Id</th><th>OrderId</th><th>Name</th><th>Quantity</th><th>Unit</th><th></th></tr>
+        <tr><th>Id</th><th>Name</th><th>Quantity</th><th>Unit</th><th></th></tr>
         @foreach (var orderItems in Model.OrderItems)
         {
             <tr>
                 <td>@orderItems.Id</td>
-                <td>@orderItems.OrderId</td>
                 <td>@orderItems.Name</td>
                 <td>@orderItems.Quantity</td>
                 <td>@orderItems.Unit</td>

@@ -5,7 +5,6 @@ using SolforbApp.Domain.Interfaces;
 using SolforbApp.Models;
 using SolforbApp.ViewModels;
 using System.Diagnostics;
-using System.Security.Cryptography.Xml;
 
 namespace SolforbApp.Controllers
 {
@@ -27,9 +26,16 @@ namespace SolforbApp.Controllers
         [HttpGet]
         public IActionResult Index(string number, int? providerId, DateTime dataStart, DateTime dataEnd)
         {
-            var orders = _order.GetAll();
+            var orders = _order.GetOrderIncludeProvider();
             var numbers = orders.Select(x => x.Number).Distinct().ToList();
-            var providers = orders.Select(x => x.ProviderId).Distinct().ToList();
+            List<SelectListItem> providers = orders
+                .OrderBy(x => x.Provider.Name)
+                .Select(x =>
+                new SelectListItem
+                {
+                    Value = x.Provider.Id.ToString(),
+                    Text = x.Provider.Name,
+                }).Distinct().ToList();
 
             if (!String.IsNullOrEmpty(number))
             {
@@ -39,7 +45,7 @@ namespace SolforbApp.Controllers
             {
                 orders = orders.Where(p => p.ProviderId == providerId);
             }
-            if(dataStart == DateTime.MinValue && dataEnd == DateTime.MinValue)
+            if (dataStart == DateTime.MinValue && dataEnd == DateTime.MinValue)
             {
                 dataStart = DateTime.Now.AddMonths(-1);
                 dataEnd = DateTime.Now;
@@ -50,7 +56,7 @@ namespace SolforbApp.Controllers
             {
                 Orders = orders,
                 Numbers = new SelectList(numbers),
-                ProvidersId = new SelectList(providers),
+                Providers = providers,
                 DataEnd = dataEnd,
                 DataStart = dataStart
             };
