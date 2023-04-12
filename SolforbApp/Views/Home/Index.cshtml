@@ -45,12 +45,9 @@
                 <td>@order.Number</td>
                 <td>@order.Date</td>
                 <td>@order.Provider.Name</td>
-                <td>
-                    <form method="post" asp-action="Detail" asp-route-orderId="@order.Id">
-                        <button type="submit" class="btn btn-sm btn-primary">Подробнее</button>
-                    </form>
-                </td>
             </tr>
+            <a asp-action="Detail" asp-route-orderId="@order.Id" class="stretched-link"></a> 
+            
     }
 </table>
 

@@ -104,7 +104,7 @@ namespace SolforbApp.Controllers
         }
 
         [HttpGet]
-        public IActionResult CreateOrder() => View( new CreateOrderViewModel { Providers = GetSelectListProviders()});
+        public IActionResult CreateOrder() => View(new CreateOrderViewModel { Providers = GetSelectListProviders() });
 
         private List<SelectListItem> GetSelectListProviders()
         {
@@ -217,17 +217,26 @@ namespace SolforbApp.Controllers
         {
             if (ModelState.IsValid)
             {
-                var order = new OrderItem
+                var order = await _order.Get(model.OrderId);
+                if (order != null && order.Number != model.Name)
                 {
-                    OrderId = model.OrderId,
-                    Name = model.Name,
-                    Quantity = model.Quantity,
-                    Unit = model.Unit
-                };
-                var result = await _orderItem.Create(order);
-                if (result == true)
+                    var orderNew = new OrderItem
+                    {
+                        OrderId = model.OrderId,
+                        Name = model.Name,
+                        Quantity = model.Quantity,
+                        Unit = model.Unit
+                    };
+                    var result = await _orderItem.Create(orderNew);
+                    if (result == true)
+                    {
+                        return RedirectToAction(nameof(Detail), new { orderId = orderNew.OrderId });
+                    }
+                }
+                else
                 {
-                    return RedirectToAction(nameof(Detail), new { orderId = order.OrderId });
+                    ModelState.AddModelError("", "Имя не может быть равно номеру заказа");
+                    View(model);
                 }
             }
             return View(model);
@@ -257,20 +266,29 @@ namespace SolforbApp.Controllers
         {
             if (ModelState.IsValid)
             {
-                var orderItem = await _orderItem.Get(model.Id);
-                if (orderItem != null)
+                var order = await _order.Get(model.OrderId);
+                if (order != null && order.Number != model.Name)
                 {
-                    orderItem.Name = model.Name;
-                    orderItem.Quantity = model.Quantity;
-                    orderItem.Unit = model.Unit;
-
-                    var result = await _orderItem.Update(orderItem);
-                    if (result == true)
+                    var orderItem = await _orderItem.Get(model.Id);
+                    if (orderItem != null)
                     {
-                        return RedirectToAction(nameof(Detail), new { orderId = model.OrderId });
+                        orderItem.Name = model.Name;
+                        orderItem.Quantity = model.Quantity;
+                        orderItem.Unit = model.Unit;
+
+                        var result = await _orderItem.Update(orderItem);
+                        if (result == true)
+                        {
+                            return RedirectToAction(nameof(Detail), new { orderId = model.OrderId });
+                        }
                     }
+                    return NotFound();
                 }
-                return NotFound();
+                else
+                {
+                    ModelState.AddModelError("", "Имя не может быть равно номеру заказа");
+                    View(model);
+                }
             }
             return View(model);
         }

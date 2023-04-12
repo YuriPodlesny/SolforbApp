@@ -9,13 +9,14 @@ using System.Xml.Linq;
 
 namespace SolforbApp.Domain.Core
 {
-    [Index(nameof(Number), nameof(ProviderId), IsUnique = true, Name = "IndexIsUniqueNumderAndRroviderId")]
+    [Index(nameof(Number), nameof(ProviderId), IsUnique = true, Name = "IndexNumderAndRroviderId")]
     public class Order : BaseEntitu
     {
         public string Number { get; set; }
         public DateTime Date { get; set; }
         public int ProviderId { get; set; }
-        public Provider Provider { get; set; }
+        public Provider? Provider { get; set; }
 
+        public List<OrderItem> OrderItems { get; set; }
     }
 }

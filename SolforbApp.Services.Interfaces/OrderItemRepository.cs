@@ -1,4 +1,5 @@
-﻿using SolforbApp.Domain.Core;
+﻿using Microsoft.EntityFrameworkCore;
+using SolforbApp.Domain.Core;
 using SolforbApp.Domain.Interfaces;
 using SolforbApp.Infrastructure.Data;
 using SolforbApp.Infrastructure.Data.Repository;
@@ -17,7 +18,5 @@ namespace SolforbApp.Services.Repository
         {
             return _context.OrderItem.Where(x => x.OrderId == orderId);
         }
-
-
     }
 }
