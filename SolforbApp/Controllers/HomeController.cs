@@ -1,9 +1,12 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.ModelBinding;
 using Microsoft.AspNetCore.Mvc.Rendering;
+using Microsoft.EntityFrameworkCore;
 using SolforbApp.Domain.Core;
 using SolforbApp.Domain.Interfaces;
 using SolforbApp.Models;
 using SolforbApp.ViewModels;
+using System.Collections.Generic;
 using System.Diagnostics;
 
 namespace SolforbApp.Controllers
@@ -101,20 +104,18 @@ namespace SolforbApp.Controllers
         }
 
         [HttpGet]
-        public IActionResult CreateOrder()
+        public IActionResult CreateOrder() => View( new CreateOrderViewModel { Providers = GetSelectListProviders()});
+
+        private List<SelectListItem> GetSelectListProviders()
         {
-            CreateOrderViewModel createOrderViewModel = new();
-            var selectProvider = _provider.GetAll();
-            List<SelectListItem> listItems = _provider.GetAll()
-                .OrderBy(n => n.Name)
-                .Select(n =>
-                new SelectListItem
-                {
-                    Value = n.Id.ToString(),
-                    Text = n.Name,
-                }).ToList();
-            createOrderViewModel.Providers = listItems;
-            return View(createOrderViewModel);
+            return _provider.GetAll()
+                    .OrderBy(n => n.Name)
+                    .Select(n =>
+                    new SelectListItem
+                    {
+                        Value = n.Id.ToString(),
+                        Text = n.Name,
+                    }).ToList();
         }
 
         [HttpPost]
@@ -133,6 +134,11 @@ namespace SolforbApp.Controllers
                 {
                     return RedirectToAction(nameof(Index));
                 }
+                else
+                {
+                    ModelState.AddModelError("", "В базе уже есть данный объект");
+                    return View(new CreateOrderViewModel { Providers = GetSelectListProviders() });
+                }
             }
             return RedirectToAction(nameof(CreateOrder));
         }
@@ -140,16 +146,6 @@ namespace SolforbApp.Controllers
         [HttpGet]
         public async Task<IActionResult> EditOrder(int orderId)
         {
-            var selectProvider = _provider.GetAll();
-            List<SelectListItem> listItems = _provider.GetAll()
-                .OrderBy(n => n.Name)
-                .Select(n =>
-                new SelectListItem
-                {
-                    Value = n.Id.ToString(),
-                    Text = n.Name,
-                }).ToList();
-
             var order = await _order.Get(orderId);
             if (order == null)
             {
@@ -161,7 +157,7 @@ namespace SolforbApp.Controllers
                 Number = order.Number,
                 Date = order.Date,
                 ProviderId = order.ProviderId,
-                Providers = listItems
+                Providers = GetSelectListProviders(),
             };
             return View(model);
         }
@@ -182,6 +178,11 @@ namespace SolforbApp.Controllers
                     if (result == true)
                     {
                         return RedirectToAction(nameof(Detail), new { orderId = order.Id });
+                    }
+                    else
+                    {
+                        ModelState.AddModelError("", "В базе уже есть данный объект");
+                        return View(new EditOrderViewModel { Providers = GetSelectListProviders() });
                     }
                 }
                 return NotFound();

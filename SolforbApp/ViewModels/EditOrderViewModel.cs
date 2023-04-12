@@ -20,6 +20,6 @@ namespace SolforbApp.ViewModels
         [Display(Name = "Поставщик")]
         public int ProviderId { get; set; }
 
-        public IEnumerable<SelectListItem> Providers { get; set; }
+        public IEnumerable<SelectListItem>? Providers { get; set; }
     }
 }

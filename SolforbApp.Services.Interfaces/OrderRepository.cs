@@ -14,6 +14,34 @@ namespace SolforbApp.Services.Repository
             _context = context;
         }
 
+        public new async Task<bool> Create(Order entety)
+        {
+            await _context.AddAsync(entety);
+            try
+            {
+                await _context.SaveChangesAsync();
+            }
+            catch
+            {
+                return false;
+            }
+            return true;
+        }
+
+        public new async Task<bool> Update(Order entity)
+        {
+            _context.Entry(entity).State = EntityState.Modified;
+            try
+            {
+                await _context.SaveChangesAsync();
+            }
+            catch
+            {
+                return false;
+            }
+            return true;
+        }
+
         public IQueryable<Order> GetOrderIncludeProvider()
         {
             return _context.Order.Include(p => p.Provider);
