@@ -12,7 +12,6 @@ namespace SolforbApp.Infrastructure.Data
     {
         public SolforbDbContext(DbContextOptions options) : base(options)
         {
-            //Database.EnsureDeleted();
             Database.EnsureCreated();
         }
 
