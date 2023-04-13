@@ -3,7 +3,7 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.5.33424.131
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SolforbApp", "SolforbApp\SolforbApp.csproj", "{ECBC3B75-7232-42F2-A2EB-37BA2C632FEA}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SolforbApp", "SolforbApp\SolforbApp.csproj", "{ECBC3B75-7232-42F2-A2EB-37BA2C632FEA}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Domain", "Domain", "{21E1EA25-11BC-4568-BB99-1ACFE2D847B4}"
 EndProject
@@ -11,15 +11,13 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Infrastructure", "Infrastru
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Services", "Services", "{CC2D567C-4EAB-48B8-9831-6DFB0789F51D}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SolforbApp.Domain.Core", "SolforbApp.Domain.Core\SolforbApp.Domain.Core.csproj", "{8111BCA4-52E3-4D74-A779-559F091A1454}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SolforbApp.Domain.Core", "SolforbApp.Domain.Core\SolforbApp.Domain.Core.csproj", "{8111BCA4-52E3-4D74-A779-559F091A1454}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SolforbApp.Domain.Interfaces", "SolforbApp.Domain.Interfaces\SolforbApp.Domain.Interfaces.csproj", "{67BD896F-E769-45B2-B503-7C82DB953CFA}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SolforbApp.Domain.Interfaces", "SolforbApp.Domain.Interfaces\SolforbApp.Domain.Interfaces.csproj", "{67BD896F-E769-45B2-B503-7C82DB953CFA}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SolforbApp.Infrastructure.Business", "SolforbApp.Infrastructure.Business\SolforbApp.Infrastructure.Business.csproj", "{C460B45F-B3B2-4989-B434-866C52A7611C}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SolforbApp.Infrastructure.Data", "SolforbApp.Infrastructure.Data\SolforbApp.Infrastructure.Data.csproj", "{1523A5C1-E732-4117-A6DD-C6F16EAD43C5}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SolforbApp.Infrastructure.Data", "SolforbApp.Infrastructure.Data\SolforbApp.Infrastructure.Data.csproj", "{1523A5C1-E732-4117-A6DD-C6F16EAD43C5}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SolforbApp.Services.Repository", "SolforbApp.Services.Interfaces\SolforbApp.Services.Repository.csproj", "{A0D9E762-62F9-40A0-BE0D-B1096B5F87B7}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SolforbApp.Services.Repository", "SolforbApp.Services.Interfaces\SolforbApp.Services.Repository.csproj", "{A0D9E762-62F9-40A0-BE0D-B1096B5F87B7}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -39,10 +37,6 @@ Global
 		{67BD896F-E769-45B2-B503-7C82DB953CFA}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{67BD896F-E769-45B2-B503-7C82DB953CFA}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{67BD896F-E769-45B2-B503-7C82DB953CFA}.Release|Any CPU.Build.0 = Release|Any CPU
-		{C460B45F-B3B2-4989-B434-866C52A7611C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{C460B45F-B3B2-4989-B434-866C52A7611C}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{C460B45F-B3B2-4989-B434-866C52A7611C}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{C460B45F-B3B2-4989-B434-866C52A7611C}.Release|Any CPU.Build.0 = Release|Any CPU
 		{1523A5C1-E732-4117-A6DD-C6F16EAD43C5}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{1523A5C1-E732-4117-A6DD-C6F16EAD43C5}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{1523A5C1-E732-4117-A6DD-C6F16EAD43C5}.Release|Any CPU.ActiveCfg = Release|Any CPU
@@ -58,7 +52,6 @@ Global
 	GlobalSection(NestedProjects) = preSolution
 		{8111BCA4-52E3-4D74-A779-559F091A1454} = {21E1EA25-11BC-4568-BB99-1ACFE2D847B4}
 		{67BD896F-E769-45B2-B503-7C82DB953CFA} = {21E1EA25-11BC-4568-BB99-1ACFE2D847B4}
-		{C460B45F-B3B2-4989-B434-866C52A7611C} = {A9643B40-EB03-44A6-AFB4-AA39D1994BE3}
 		{1523A5C1-E732-4117-A6DD-C6F16EAD43C5} = {A9643B40-EB03-44A6-AFB4-AA39D1994BE3}
 		{A0D9E762-62F9-40A0-BE0D-B1096B5F87B7} = {CC2D567C-4EAB-48B8-9831-6DFB0789F51D}
 	EndGlobalSection
